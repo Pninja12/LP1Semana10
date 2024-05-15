@@ -1,28 +1,28 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlayerManagerMVC
 {
     public class Player : IComparable<Player>
     {
-        public string Name{ get; }
-        public int Score{ get; set; }
+        public string Name { get; }
+        public int Score { get; }
+
         public Player(string name, int score)
         {
             Name = name;
             Score = score;
         }
 
+        public override string ToString()
+        {
+            return $"{Name} ({Score})";
+        }
+
         public int CompareTo(Player other)
         {
-            if (other.Score > Score) return 1;
-            else if(other.Score < Score) return -1;
-            else return 0;
-            
-
+            if (other is null)
+                return 1;
+            return other.Score - Score;
         }
-             
     }
 }

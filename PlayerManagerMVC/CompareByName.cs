@@ -1,38 +1,44 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlayerManagerMVC
 {
+    /// <summary>
+    /// Compares players by name.
+    /// </summary>
     public class CompareByName : IComparer<Player>
     {
-        private int side;
+        // If true will compare by alphabetical order, otherwise will compare
+        // in reverse alphabetical order
+        private readonly bool ord;
 
-        public CompareByName(int side = 0)
+        /// <summary>
+        /// Compare two players.
+        /// </summary>
+        /// <param name="p1">First player.</param>
+        /// <param name="p2">Second player.</param>
+        /// <returns>-1, 0 or 1</returns>
+        public int Compare(Player p1, Player p2)
         {
-            this.side = side;
+            if (p1 == p2) return 0;
+            if (p1 is null) return -1;
+            if (p2 is null) return 1;
+
+            if (ord)
+                return p1.Name.CompareTo(p2.Name);
+            else
+                return p2.Name.CompareTo(p1.Name);
         }
 
-        public int Compare(Player playerA, Player playerB)
+        /// <summary>
+        /// Creates a new instance of this class.
+        /// </summary>
+        /// <param name="ord">
+        /// If true order alphatetically, otherwise sort in reverse
+        /// alphabetical order.
+        /// </param>
+        public CompareByName(bool ord)
         {
-            switch (this.side)
-            {
-                case 0:
-                    return playerA.CompareTo(playerB);
-                case 1:
-                    if (playerB.Name.Length > playerA.Name.Length) return 1;
-                    else if(playerB.Name.Length <
-                     playerA.Name.Length) return -1;
-                    else return 0;
-                case 2:
-                    if (playerB.Name.Length > playerA.Name.Length) return -1;
-                    else if(playerB.Name.Length <
-                     playerA.Name.Length) return 1;
-                    else return 0;
-                default:
-                    return 0;
-            }
+            this.ord = ord;
         }
     }
 }
